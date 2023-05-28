@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Color } from "../constants/theme";
 import { Transaction } from "../interface/interfaceTransaction";
-import { formatQuantity, formattedDate } from "../helpers";
+import { formatQuantity } from "../helpers";
 
 type Prop = {
   item: Transaction;
@@ -10,7 +10,6 @@ type Prop = {
 
 export default function ListItemTransactions({ item }: Prop) {
   const { description, money, transactionType, date } = item;
-  console.log(date);
 
   return (
     <View style={styles.container}>
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
   },
   containerItem: {
     backgroundColor: "#fff",
-    marginBottom: 6,
+    marginBottom: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

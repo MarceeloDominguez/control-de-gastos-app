@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import ModalForm from "./ModalForm";
+import { useTransactionContext } from "../context/AppContext";
 
 export default function FloatingButton() {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  const { closeModal, modalVisible, openModal } = useTransactionContext();
 
   return (
     <>
       <TouchableOpacity
-        onPress={() => setModalVisible(true)}
+        onPress={openModal}
         style={styles.container}
         activeOpacity={0.8}
       >

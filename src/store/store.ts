@@ -1,5 +1,7 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { Transaction } from "../interface/interfaceTransaction";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface ValueInput {
   money: string;
@@ -17,19 +19,33 @@ type Action = {
     id: string,
     date: string
   ) => void;
+  deleteTransaction: (id: string) => void;
 };
 
-export const useStoreTransaction = create<State & Action>((set) => ({
-  data: [],
+export const useStoreTransaction = create(
+  persist<State & Action>(
+    (set) => ({
+      data: [],
 
-  addTransaction: (
-    value: ValueInput,
-    transactionType: string,
-    id: string,
-    date: string
-  ) =>
-    set((state) => ({
-      ...state,
-      data: [...state.data, { ...value, transactionType, id, date }],
-    })),
-}));
+      //agregar un elemento
+      addTransaction: (
+        value: ValueInput,
+        transactionType: string,
+        id: string,
+        date: string
+      ) =>
+        set((state) => ({
+          ...state,
+          data: [{ ...value, transactionType, id, date }, ...state.data],
+        })),
+
+      //eliminar un elemento
+      deleteTransaction: (id: string) =>
+        set((state) => ({
+          ...state,
+          data: state.data.filter((item) => item.id !== id),
+        })),
+    }),
+    { name: "transaction-list", storage: createJSONStorage(() => AsyncStorage) }
+  )
+);

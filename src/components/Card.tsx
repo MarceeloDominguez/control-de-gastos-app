@@ -31,7 +31,7 @@ export default function Card({ titleList }: Prop) {
       >
         {data.length > 0 && (
           <Text style={styles.dates}>
-            {newDate} - {newDate2}
+            {newDate2} - {newDate}
           </Text>
         )}
         <Text style={styles.total}>{formatQuantity(total)}</Text>
