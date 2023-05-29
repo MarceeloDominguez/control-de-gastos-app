@@ -20,6 +20,11 @@ type Action = {
     date: string
   ) => void;
   deleteTransaction: (id: string) => void;
+  updateTransaction: (
+    newItem: ValueInput | undefined,
+    itemId: string | null,
+    transactionType: string
+  ) => void;
 };
 
 export const useStoreTransaction = create(
@@ -44,6 +49,18 @@ export const useStoreTransaction = create(
         set((state) => ({
           ...state,
           data: state.data.filter((item) => item.id !== id),
+        })),
+
+      //editar un elemento
+      updateTransaction: (
+        newItem: ValueInput | undefined,
+        itemId: string | null,
+        transactionType: string
+      ) =>
+        set((state) => ({
+          data: state.data.map((item) =>
+            item.id === itemId ? { ...item, ...newItem, transactionType } : item
+          ),
         })),
     }),
     { name: "transaction-list", storage: createJSONStorage(() => AsyncStorage) }

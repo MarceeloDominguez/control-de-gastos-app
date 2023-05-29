@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,16 +14,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import CheckBoxForm from "./CheckBoxForm";
 import { useStoreTransaction } from "../store/store";
 import { formattedDate, getCurrentTimestamp } from "../helpers";
+import { useTransactionContext } from "../context/AppContext";
 
-type Prop = {
-  modalVisible: boolean;
-  closeModal: () => void;
-};
-
-export default function ModalForm({ modalVisible, closeModal }: Prop) {
-  const { addTransaction } = useStoreTransaction();
+export default function ModalForm() {
+  const { addTransaction, updateTransaction } = useStoreTransaction();
+  const { itemId, objectToEdit, modalVisible, closeModal } =
+    useTransactionContext();
   const [checkSelected, setCheckSelected] = useState("");
-
   const [inputValue, setInputValue] = useState({
     money: "",
     description: "",
@@ -33,15 +30,36 @@ export default function ModalForm({ modalVisible, closeModal }: Prop) {
     setInputValue({ ...inputValue, [valueName]: textValue });
   };
 
+  useEffect(() => {
+    if (objectToEdit !== null) {
+      setInputValue({
+        money: objectToEdit.money,
+        description: objectToEdit.description,
+      });
+      setCheckSelected(objectToEdit.transactionType);
+    }
+    if (!modalVisible) {
+      setInputValue({ money: "", description: "" });
+      setCheckSelected("");
+    }
+  }, [modalVisible]);
+
   const handleSubmit = () => {
     if (!inputValue.description || !inputValue.money || !checkSelected) return;
 
-    addTransaction(
-      inputValue,
-      checkSelected,
-      getCurrentTimestamp(),
-      formattedDate
-    );
+    if (objectToEdit !== null) {
+      //si hay un objeto para editar, edito el item.
+      updateTransaction(inputValue, itemId, checkSelected);
+    } else {
+      //sino agrego un item nuevo
+      addTransaction(
+        inputValue,
+        checkSelected,
+        getCurrentTimestamp(),
+        formattedDate
+      );
+    }
+
     setInputValue({ money: "", description: "" });
     setCheckSelected("");
     closeModal();
@@ -71,6 +89,7 @@ export default function ModalForm({ modalVisible, closeModal }: Prop) {
                 placeholder="$10.000.00"
                 selectionColor="#4f80c3"
                 keyboardType="numeric"
+                value={inputValue.money}
                 onChangeText={(textValue) => handleChange("money", textValue)}
               />
               <View>
@@ -78,6 +97,7 @@ export default function ModalForm({ modalVisible, closeModal }: Prop) {
                   style={styles.input}
                   placeholder="Netflix, Amazon..."
                   selectionColor="#4f80c3"
+                  value={inputValue.description}
                   onChangeText={(textValue) =>
                     handleChange("description", textValue)
                   }

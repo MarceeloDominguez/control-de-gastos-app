@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { useStoreTransaction } from "../store/store";
+import { Transaction } from "../interface/interfaceTransaction";
 
 interface AppContext {
   totalIncome: number;
@@ -8,12 +9,17 @@ interface AppContext {
   modalVisible: boolean;
   closeModal: () => void;
   openModal: () => void;
+  handleEditTransaction: (id: string) => void;
+  itemId: string | null;
+  objectToEdit: Transaction | null;
 }
 
 const TransactionContext = createContext({} as AppContext);
 
 export const AppContext = ({ children }: { children: JSX.Element }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [itemId, setItemId] = useState<string | null>(null);
+  const [objectToEdit, setObjectToEdit] = useState<Transaction | null>(null);
   const { data } = useStoreTransaction();
 
   const filterIncome = data.filter((item) => item.transactionType === "Income");
@@ -34,10 +40,19 @@ export const AppContext = ({ children }: { children: JSX.Element }) => {
 
   const closeModal = () => {
     setModalVisible(false);
+    setItemId(null);
+    setObjectToEdit(null);
   };
 
   const openModal = () => {
     setModalVisible(true);
+  };
+
+  const handleEditTransaction = (id: string) => {
+    const itemToEdit = data.find((item) => item.id === id);
+    setItemId(id);
+    setObjectToEdit(itemToEdit!);
+    openModal();
   };
 
   return (
@@ -49,6 +64,9 @@ export const AppContext = ({ children }: { children: JSX.Element }) => {
         modalVisible,
         closeModal,
         openModal,
+        handleEditTransaction,
+        itemId,
+        objectToEdit,
       }}
     >
       {children}
@@ -64,6 +82,9 @@ export const useTransactionContext = () => {
     modalVisible,
     closeModal,
     openModal,
+    handleEditTransaction,
+    itemId,
+    objectToEdit,
   } = useContext(TransactionContext);
 
   return {
@@ -73,5 +94,8 @@ export const useTransactionContext = () => {
     modalVisible,
     closeModal,
     openModal,
+    handleEditTransaction,
+    itemId,
+    objectToEdit,
   };
 };

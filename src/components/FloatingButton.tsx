@@ -5,7 +5,7 @@ import ModalForm from "./ModalForm";
 import { useTransactionContext } from "../context/AppContext";
 
 export default function FloatingButton() {
-  const { closeModal, modalVisible, openModal } = useTransactionContext();
+  const { openModal } = useTransactionContext();
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function FloatingButton() {
           <Text style={styles.add}>+</Text>
         </LinearGradient>
       </TouchableOpacity>
-      <ModalForm modalVisible={modalVisible} closeModal={closeModal} />
+      <ModalForm />
     </>
   );
 }

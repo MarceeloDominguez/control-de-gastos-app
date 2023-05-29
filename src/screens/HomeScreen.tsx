@@ -19,7 +19,7 @@ import { useTransactionContext } from "../context/AppContext";
 
 export default function HomeScreen() {
   const { data, deleteTransaction } = useStoreTransaction();
-  const { openModal } = useTransactionContext();
+  const { handleEditTransaction } = useTransactionContext();
 
   const handleDeleteTransaction = (description: string, id: string) => {
     Alert.alert("Sure you want to delete?", `${description}`, [
@@ -29,10 +29,6 @@ export default function HomeScreen() {
       },
       { text: "OK", onPress: () => deleteTransaction(id) },
     ]);
-  };
-
-  const handleEditTransaction = () => {
-    openModal();
   };
 
   return (
@@ -63,7 +59,7 @@ export default function HomeScreen() {
               <TouchableOpacity
                 style={styles.iconHiddenContainer}
                 activeOpacity={0.8}
-                onPress={() => handleEditTransaction()}
+                onPress={() => handleEditTransaction(item.id)}
               >
                 <Feather name="edit" size={18} color="#19A7CE" />
               </TouchableOpacity>
