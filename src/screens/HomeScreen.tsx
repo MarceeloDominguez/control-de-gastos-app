@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import Card from "../components/Card";
 import { Color } from "../constants/theme";
 import FloatingButton from "../components/FloatingButton";
@@ -15,9 +14,21 @@ import { useStoreTransaction } from "../store/store";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useTransactionContext } from "../context/AppContext";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamsList } from "../navigation/Navigation";
 
-export default function HomeScreen() {
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamsList,
+  "HomeScreen"
+>;
+
+type Prop = {
+  navigation: HomeScreenNavigationProp;
+};
+
+export default function HomeScreen({ navigation }: Prop) {
   const { data, deleteTransaction } = useStoreTransaction();
   const { handleEditTransaction } = useTransactionContext();
 
@@ -34,8 +45,12 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerHeader}>
-        <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>
-          <Ionicons name="lock-open-outline" size={16} color={Color.icon} />
+        <TouchableOpacity
+          style={styles.wrapIcon}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("TransactionsScreen")}
+        >
+          <Ionicons name="ios-swap-horizontal" size={18} color={Color.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>
           <Ionicons name="stats-chart-outline" size={15} color={Color.icon} />
@@ -48,7 +63,7 @@ export default function HomeScreen() {
         data={data}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<Card titleList="Transactions" />}
+        ListHeaderComponent={<Card titleList="transferencias" />}
         contentContainerStyle={{ paddingBottom: 90 }}
         renderItem={({ item }) => {
           return <ListItemTransactions item={item} />;

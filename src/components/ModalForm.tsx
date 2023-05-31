@@ -15,8 +15,10 @@ import CheckBoxForm from "./CheckBoxForm";
 import { useStoreTransaction } from "../store/store";
 import { formattedDate, getCurrentTimestamp } from "../helpers";
 import { useTransactionContext } from "../context/AppContext";
+import { useValidate } from "../helpers/validateForm";
 
 export default function ModalForm() {
+  const [sent, setSent] = useState(false);
   const { addTransaction, updateTransaction } = useStoreTransaction();
   const { itemId, objectToEdit, modalVisible, closeModal } =
     useTransactionContext();
@@ -25,6 +27,11 @@ export default function ModalForm() {
     money: "",
     description: "",
   });
+
+  //para validar que solo se envie un numero
+  const moneyValue = inputValue.money.replace(/[^0-9]/g, "");
+
+  const errors = useValidate(inputValue, checkSelected);
 
   const handleChange = (valueName: string, textValue: string) => {
     setInputValue({ ...inputValue, [valueName]: textValue });
@@ -41,11 +48,20 @@ export default function ModalForm() {
     if (!modalVisible) {
       setInputValue({ money: "", description: "" });
       setCheckSelected("");
+      setSent(false);
     }
   }, [modalVisible]);
 
   const handleSubmit = () => {
-    if (!inputValue.description || !inputValue.money || !checkSelected) return;
+    setSent(true); //para mostrar el error en la pantalla
+
+    if (
+      !inputValue.description ||
+      !inputValue.money ||
+      !checkSelected ||
+      inputValue.money !== moneyValue
+    )
+      return;
 
     if (objectToEdit !== null) {
       //si hay un objeto para editar, edito el item.
@@ -83,36 +99,53 @@ export default function ModalForm() {
           </View>
           <View style={styles.containerContent}>
             <View>
-              <Text style={styles.title}>Add Expenses</Text>
-              <TextInput
-                style={styles.inputAmountMoney}
-                placeholder="$10.000.00"
-                selectionColor="#4f80c3"
-                keyboardType="numeric"
-                value={inputValue.money}
-                onChangeText={(textValue) => handleChange("money", textValue)}
-              />
+              <Text style={styles.title}>
+                {objectToEdit !== null
+                  ? "Editar Transferencia"
+                  : "Agregar Transferencia"}
+              </Text>
               <View>
                 <TextInput
-                  style={styles.input}
-                  placeholder="Netflix, Amazon..."
+                  style={styles.inputAmountMoney}
+                  placeholder="$10.000.00"
                   selectionColor="#4f80c3"
-                  value={inputValue.description}
-                  onChangeText={(textValue) =>
-                    handleChange("description", textValue)
-                  }
+                  keyboardType="numeric"
+                  value={inputValue.money}
+                  onChangeText={(textValue) => handleChange("money", textValue)}
                 />
-                <Entypo
-                  name="list"
-                  size={18}
-                  color={Color.icon}
-                  style={styles.iconListInput}
-                />
+                {sent && <Text style={styles.errorMoney}>{errors.money}</Text>}
               </View>
-              <CheckBoxForm
-                handleCheckBox={handleCheckBox}
-                checkSelected={checkSelected}
-              />
+              <View>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Netflix, Amazon..."
+                    selectionColor="#4f80c3"
+                    value={inputValue.description}
+                    onChangeText={(textValue) =>
+                      handleChange("description", textValue)
+                    }
+                  />
+                  <Entypo
+                    name="list"
+                    size={18}
+                    color={Color.icon}
+                    style={styles.iconListInput}
+                  />
+                </View>
+                {sent && (
+                  <Text style={styles.errorDescription}>
+                    {errors.description}
+                  </Text>
+                )}
+              </View>
+              <View>
+                <CheckBoxForm
+                  handleCheckBox={handleCheckBox}
+                  checkSelected={checkSelected}
+                />
+                {sent && <Text style={styles.errorCheck}>{errors.check}</Text>}
+              </View>
             </View>
             <TouchableOpacity activeOpacity={0.8} onPress={handleSubmit}>
               <LinearGradient
@@ -160,7 +193,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: "#fff",
     width: "70%",
-    marginBottom: 30,
+    marginBottom: 40,
     borderRadius: 20,
     paddingHorizontal: 20,
     alignSelf: "center",
@@ -168,7 +201,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#fff",
     height: 40,
-    marginBottom: 16,
+    marginBottom: 22,
     borderRadius: 10,
     paddingLeft: 40,
     paddingRight: 20,
@@ -191,5 +224,28 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     letterSpacing: 0.4,
+  },
+  errorMoney: {
+    position: "absolute",
+    bottom: 22,
+    fontSize: 12,
+    width: "70%",
+    alignSelf: "center",
+    fontStyle: "italic",
+    color: Color.expense,
+  },
+  errorDescription: {
+    position: "absolute",
+    bottom: 7,
+    fontSize: 12,
+    fontStyle: "italic",
+    color: Color.expense,
+  },
+  errorCheck: {
+    position: "absolute",
+    bottom: 0,
+    fontSize: 12,
+    fontStyle: "italic",
+    color: Color.expense,
   },
 });

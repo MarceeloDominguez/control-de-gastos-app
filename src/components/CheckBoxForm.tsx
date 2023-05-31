@@ -4,7 +4,16 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Color } from "../constants/theme";
 
-const options = ["Income", "Expenses"];
+const options = [
+  {
+    name: "Ingresos",
+    type: "Income",
+  },
+  {
+    name: "Gastos",
+    type: "Expenses",
+  },
+];
 
 type Prop = {
   handleCheckBox: (value: string) => void;
@@ -22,15 +31,15 @@ export default function CheckBoxForm({ handleCheckBox, checkSelected }: Prop) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.containerCheck}
-                onPress={() => handleCheckBox(item)}
+                onPress={() => handleCheckBox(item.type)}
               >
                 <Entypo
-                  name={checkSelected === item ? "check" : null!}
+                  name={checkSelected === item.type ? "check" : null!}
                   size={14}
                   color={Color.income}
                 />
               </TouchableOpacity>
-              <Text style={styles.titleCheck}>{item}</Text>
+              <Text style={styles.titleCheck}>{item.name}</Text>
             </View>
           );
         })}

@@ -29,28 +29,30 @@ export default function Card({ titleList }: Prop) {
         colors={["#4f80c3", "#c661eb", "#ee8183"]}
         style={styles.container}
       >
-        {data.length > 0 && (
+        {data.length > 0 ? (
           <Text style={styles.dates}>
             {newDate2} - {newDate}
           </Text>
+        ) : (
+          <Text style={styles.dataEmpty}>No hay Ingresos ni Gastos</Text>
         )}
         <Text style={styles.total}>{formatQuantity(total)}</Text>
         <View style={styles.containerFooter}>
           <View style={styles.wrapContentLeftEndRight}>
             <View style={[styles.wrapArrow]}>
-              <AntDesign name="arrowdown" size={15} color={Color.income} />
+              <AntDesign name="arrowup" size={15} color={Color.income} />
             </View>
             <View>
-              <Text style={styles.title}>Income</Text>
+              <Text style={styles.title}>Ingresos</Text>
               <Text style={styles.money}>{formatQuantity(totalIncome)}</Text>
             </View>
           </View>
           <View style={styles.wrapContentLeftEndRight}>
             <View style={[styles.wrapArrow]}>
-              <AntDesign name="arrowup" size={15} color={Color.expense} />
+              <AntDesign name="arrowdown" size={15} color={Color.expense} />
             </View>
             <View>
-              <Text style={styles.title}>Expenses</Text>
+              <Text style={styles.title}>Gastos</Text>
               <Text style={styles.money}>{formatQuantity(totalExpenses)}</Text>
             </View>
           </View>
@@ -74,6 +76,15 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginTop: 10,
     textAlign: "center",
+    textTransform: "capitalize",
+    fontSize: 14,
+  },
+  dataEmpty: {
+    color: "#fff",
+    fontWeight: "600",
+    marginTop: 10,
+    textAlign: "center",
+    fontSize: 14,
   },
   total: {
     color: "#fff",
@@ -119,6 +130,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
     marginBottom: 15,
     color: Color.fontColorPrimary,
-    opacity: 0.8,
+    textTransform: "capitalize",
   },
 });

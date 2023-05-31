@@ -26,8 +26,10 @@ export default function ListItemTransactions({ item }: Prop) {
           >
             <Text style={styles.textCircle}>{description.charAt(0)}</Text>
           </View>
-          <View>
-            <Text style={styles.title}>{description}</Text>
+          <View style={{ flex: 1 }}>
+            <Text numberOfLines={1} style={styles.title}>
+              {description}
+            </Text>
             <Text style={styles.date}>{date}</Text>
           </View>
         </View>
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
   wrapItemLeft: {
     flexDirection: "row",
     gap: 10,
+    flex: 1,
   },
   textCircle: {
     textTransform: "uppercase",
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     letterSpacing: 0.4,
     opacity: 0.8,
+    textTransform: "capitalize",
   },
   money: {
     fontWeight: "bold",
