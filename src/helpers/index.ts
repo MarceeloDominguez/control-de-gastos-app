@@ -15,3 +15,6 @@ export const formatQuantity = (quantity: number) => {
     currency: "ARS",
   });
 };
+
+//mes actual
+export const currentMonth = date.setLocale("es").toFormat("LLL");

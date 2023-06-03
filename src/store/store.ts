@@ -17,7 +17,8 @@ type Action = {
     value: ValueInput,
     transactionType: string,
     id: string,
-    date: string
+    date: string,
+    currentMonth: string
   ) => void;
   deleteTransaction: (id: string) => void;
   updateTransaction: (
@@ -37,11 +38,15 @@ export const useStoreTransaction = create(
         value: ValueInput,
         transactionType: string,
         id: string,
-        date: string
+        date: string,
+        currentMonth: string
       ) =>
         set((state) => ({
           ...state,
-          data: [{ ...value, transactionType, id, date }, ...state.data],
+          data: [
+            { ...value, transactionType, id, date, currentMonth },
+            ...state.data,
+          ],
         })),
 
       //eliminar un elemento

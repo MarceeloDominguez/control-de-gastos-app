@@ -33,9 +33,9 @@ export default function HomeScreen({ navigation }: Prop) {
   const { handleEditTransaction } = useTransactionContext();
 
   const handleDeleteTransaction = (description: string, id: string) => {
-    Alert.alert("Sure you want to delete?", `${description}`, [
+    Alert.alert("Estas seguro que lo queres eliminar?", `${description}`, [
       {
-        text: "Cancel",
+        text: "Cancelar",
         style: "cancel",
       },
       { text: "OK", onPress: () => deleteTransaction(id) },
@@ -52,7 +52,11 @@ export default function HomeScreen({ navigation }: Prop) {
         >
           <Ionicons name="ios-swap-horizontal" size={18} color={Color.icon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.wrapIcon}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("StatisticsScreen")}
+        >
           <Ionicons name="stats-chart-outline" size={15} color={Color.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>

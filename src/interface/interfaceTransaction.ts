@@ -4,4 +4,5 @@ export interface Transaction {
   transactionType: string;
   id: string;
   date: string;
+  currentMonth: string;
 }

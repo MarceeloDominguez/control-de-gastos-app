@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CheckBoxForm from "./CheckBoxForm";
 import { useStoreTransaction } from "../store/store";
-import { formattedDate, getCurrentTimestamp } from "../helpers";
+import { currentMonth, formattedDate, getCurrentTimestamp } from "../helpers";
 import { useTransactionContext } from "../context/AppContext";
 import { useValidate } from "../helpers/validateForm";
 
@@ -72,7 +72,8 @@ export default function ModalForm() {
         inputValue,
         checkSelected,
         getCurrentTimestamp(),
-        formattedDate
+        formattedDate,
+        currentMonth
       );
     }
 
