@@ -26,7 +26,7 @@ export default function ListItemTransactions({ item }: Prop) {
           >
             <Text style={styles.textCircle}>{description.charAt(0)}</Text>
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={styles.wrapTitleEndDate}>
             <Text numberOfLines={1} style={styles.title}>
               {description}
             </Text>
@@ -82,6 +82,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     fontSize: 20,
+  },
+  wrapTitleEndDate: {
+    flex: 1,
+    height: 40,
   },
   title: {
     color: "#000",

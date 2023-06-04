@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 16,
     elevation: 10,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   dateCard: {
     fontSize: 12,
