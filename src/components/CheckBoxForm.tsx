@@ -27,20 +27,21 @@ export default function CheckBoxForm({ handleCheckBox, checkSelected }: Prop) {
         <Ionicons name="swap-vertical" size={18} color={Color.icon} />
         {options.map((item, index) => {
           return (
-            <View key={index} style={styles.wrapContainerCheck}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.containerCheck}
-                onPress={() => handleCheckBox(item.type)}
-              >
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => handleCheckBox(item.type)}
+              key={index}
+              style={styles.wrapContainerCheck}
+            >
+              <View style={styles.containerCheck}>
                 <Entypo
                   name={checkSelected === item.type ? "check" : null!}
                   size={14}
                   color={Color.income}
                 />
-              </TouchableOpacity>
+              </View>
               <Text style={styles.titleCheck}>{item.name}</Text>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>

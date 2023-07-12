@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "control-de-gastos",
+    "name": "FinTrack",
     "slug": "control-de-gastos",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f1f2f6"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,8 +20,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#c661eb"
+      },
+      "package": "com.controldecostos"
     },
     "web": {
       "favicon": "./assets/favicon.png"

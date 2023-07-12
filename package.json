@@ -1,19 +1,19 @@
 {
   "name": "control-de-gastos",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
-    "expo": "~48.0.15",
+    "expo": "~48.0.18",
     "expo-linear-gradient": "^12.1.2",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "luxon": "^3.3.0",
     "react": "18.2.0",
@@ -30,7 +30,8 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/luxon": "^3.3.0",
-    "@types/react": "~18.0.14",
+    "@types/react": "~18.0.27",
+    "@types/react-native": "^0.72.2",
     "typescript": "^4.9.4"
   },
   "private": true

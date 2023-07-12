@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { useStoreTransaction } from "../store/store";
 import { Transaction } from "../interface/interfaceTransaction";
 
@@ -12,6 +12,10 @@ interface AppContext {
   handleEditTransaction: (id: string) => void;
   itemId: string | null;
   objectToEdit: Transaction | null;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  eyeShow: boolean;
+  setEyeShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TransactionContext = createContext({} as AppContext);
@@ -21,6 +25,12 @@ export const AppContext = ({ children }: { children: JSX.Element }) => {
   const [itemId, setItemId] = useState<string | null>(null);
   const [objectToEdit, setObjectToEdit] = useState<Transaction | null>(null);
   const { data } = useStoreTransaction();
+  const [isLoading, setIsLoading] = useState(false);
+  const [eyeShow, setEyeShow] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 500);
+  }, [isLoading]);
 
   const filterIncome = data.filter((item) => item.transactionType === "Income");
   const totalIncome = filterIncome.reduce(
@@ -42,6 +52,7 @@ export const AppContext = ({ children }: { children: JSX.Element }) => {
     setModalVisible(false);
     setItemId(null);
     setObjectToEdit(null);
+    setIsLoading(true);
   };
 
   const openModal = () => {
@@ -67,6 +78,10 @@ export const AppContext = ({ children }: { children: JSX.Element }) => {
         handleEditTransaction,
         itemId,
         objectToEdit,
+        isLoading,
+        setIsLoading,
+        eyeShow,
+        setEyeShow,
       }}
     >
       {children}
@@ -85,6 +100,10 @@ export const useTransactionContext = () => {
     handleEditTransaction,
     itemId,
     objectToEdit,
+    isLoading,
+    setIsLoading,
+    eyeShow,
+    setEyeShow,
   } = useContext(TransactionContext);
 
   return {
@@ -97,5 +116,9 @@ export const useTransactionContext = () => {
     handleEditTransaction,
     itemId,
     objectToEdit,
+    isLoading,
+    setIsLoading,
+    eyeShow,
+    setEyeShow,
   };
 };

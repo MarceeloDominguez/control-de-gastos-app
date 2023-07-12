@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import { Color } from "../constants/theme";
 import { formatQuantity } from "../helpers";
 import { useTransactionContext } from "../context/AppContext";
 import { useStoreTransaction } from "../store/store";
+import { Ionicons } from "@expo/vector-icons";
 
 type Prop = {
   titleList?: string;
@@ -13,7 +14,8 @@ type Prop = {
 
 export default function Card({ titleList }: Prop) {
   const { data } = useStoreTransaction();
-  const { totalIncome, totalExpenses, total } = useTransactionContext();
+  const { totalIncome, totalExpenses, total, eyeShow, setEyeShow } =
+    useTransactionContext();
 
   let indiceComa = data[0]?.date.indexOf(",");
   let newDate = data[0]?.date.substring(indiceComa + 1);
@@ -36,7 +38,20 @@ export default function Card({ titleList }: Prop) {
         ) : (
           <Text style={styles.dataEmpty}>No hay Ingresos ni Gastos</Text>
         )}
-        <Text style={styles.total}>{formatQuantity(total)}</Text>
+        <TouchableOpacity
+          onPress={() => setEyeShow(!eyeShow)}
+          activeOpacity={1}
+          style={styles.containerTotal}
+        >
+          <Text style={styles.total}>
+            {eyeShow ? formatQuantity(total) : "******"}
+          </Text>
+          <Ionicons
+            name={eyeShow ? "eye-outline" : "eye-off-outline"}
+            size={24}
+            color="#fff"
+          />
+        </TouchableOpacity>
         <View style={styles.containerFooter}>
           <View style={styles.wrapContentLeftEndRight}>
             <View style={[styles.wrapArrow]}>
@@ -44,7 +59,9 @@ export default function Card({ titleList }: Prop) {
             </View>
             <View>
               <Text style={styles.title}>Ingresos</Text>
-              <Text style={styles.money}>{formatQuantity(totalIncome)}</Text>
+              <Text style={styles.money}>
+                {eyeShow ? formatQuantity(totalIncome) : "******"}
+              </Text>
             </View>
           </View>
           <View style={styles.wrapContentLeftEndRight}>
@@ -53,7 +70,9 @@ export default function Card({ titleList }: Prop) {
             </View>
             <View>
               <Text style={styles.title}>Gastos</Text>
-              <Text style={styles.money}>{formatQuantity(totalExpenses)}</Text>
+              <Text style={styles.money}>
+                {eyeShow ? formatQuantity(totalExpenses) : "******"}
+              </Text>
             </View>
           </View>
         </View>
@@ -86,11 +105,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
   },
+  containerTotal: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    gap: 8,
+  },
   total: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 30,
-    marginTop: 10,
     textAlign: "center",
   },
   containerFooter: {

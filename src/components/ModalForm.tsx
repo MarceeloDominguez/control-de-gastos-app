@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -32,6 +32,8 @@ export default function ModalForm() {
   const moneyValue = inputValue.money.replace(/[^0-9]/g, "");
 
   const errors = useValidate(inputValue, checkSelected);
+
+  const moneyInputRef = useRef<null | TextInput>(null);
 
   const handleChange = (valueName: string, textValue: string) => {
     setInputValue({ ...inputValue, [valueName]: textValue });
@@ -88,7 +90,10 @@ export default function ModalForm() {
 
   return (
     <Modal visible={modalVisible} animationType="slide">
-      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="always"
+      >
         <View style={styles.container}>
           <View style={styles.closeModal}>
             <Entypo
@@ -113,6 +118,7 @@ export default function ModalForm() {
                   keyboardType="numeric"
                   value={inputValue.money}
                   onChangeText={(textValue) => handleChange("money", textValue)}
+                  onSubmitEditing={() => moneyInputRef.current?.focus()}
                 />
                 {sent && <Text style={styles.errorMoney}>{errors.money}</Text>}
               </View>
@@ -126,6 +132,8 @@ export default function ModalForm() {
                     onChangeText={(textValue) =>
                       handleChange("description", textValue)
                     }
+                    ref={moneyInputRef}
+                    onSubmitEditing={() => moneyInputRef.current?.focus()}
                   />
                   <Entypo
                     name="list"
@@ -155,7 +163,7 @@ export default function ModalForm() {
                 colors={["#4f80c3", "#c661eb", "#ee8183"]}
                 style={styles.button}
               >
-                <Text style={styles.titleButton}>save</Text>
+                <Text style={styles.titleButton}>Agregar</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>

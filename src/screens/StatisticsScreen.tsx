@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     borderRadius: 16,
-    elevation: 10,
+    elevation: 0,
   },
   dataEmpty: {
     alignItems: "center",

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 15,
     borderRadius: 16,
-    elevation: 10,
+    elevation: 0,
     marginBottom: 20,
   },
   dateCard: {

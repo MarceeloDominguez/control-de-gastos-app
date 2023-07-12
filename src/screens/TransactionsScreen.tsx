@@ -57,12 +57,16 @@ export default function TransactionsScreen({ navigation }: Prop) {
           <Text style={styles.titleHeader}>transferencias</Text>
         </View>
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.wrapIcon}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("SearchScreen")}
+          >
             <Ionicons name="search" size={16} color={Color.icon} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>
+          {/* <TouchableOpacity style={styles.wrapIcon} activeOpacity={0.8}>
             <Ionicons name="ellipsis-vertical" size={16} color={Color.icon} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
