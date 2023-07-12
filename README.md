@@ -27,10 +27,16 @@ Install dependencies
   npm install
 ```
 
+Create the Project
+
+```bash
+  npx expo run:android 
+```
+
 Start the server
 
 ```bash
-  npm start
+  npx expo start --dev-client
 ```
 
 ## 🛠 Skills
