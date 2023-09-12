@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/ConcertOne-Regular.ttf",
+      "sha1": "775f234b4c3dae77b69058e31944fa9fbdc818d2"
+    },
+    {
+      "path": "assets/fonts/Rubik-Bold.ttf",
+      "sha1": "e68ec3310202f2a08092ffc9c1bb28268f8c5b70"
+    }
+  ]
+}

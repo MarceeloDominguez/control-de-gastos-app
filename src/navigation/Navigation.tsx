@@ -19,11 +19,11 @@ const Stack = createNativeStackNavigator<RootStackParamsList>();
 export default function Navigation() {
   return (
     <Stack.Navigator screenOptions={{ animation: "fade" }}>
-      {/* <Stack.Screen
+      <Stack.Screen
         name="OnboardingScreen"
         component={OnboardingScreen}
         options={{ headerShown: false }}
-      /> */}
+      />
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
